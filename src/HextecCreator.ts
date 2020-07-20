@@ -1,5 +1,7 @@
 import http from "http";
+import url from "url";
 import Route from "./Route";
+import HTTPRequest from "./HTTPRequest";
 
 class HextecCreator {
   static createApp = (routes: Array<Route>) => {
@@ -24,7 +26,22 @@ class HextecCreator {
               res.write("Route not found");
               res.end();
             } else {
-              res.write(correctRoute.getHandlerFunc()().getResponse());
+              let body = "";
+              let parsedBody: object = {};
+              req.on("data", (chunk) => (body += chunk.toString()));
+              req.on("end", () => (parsedBody = JSON.parse(body)));
+              res.write(
+                correctRoute
+                  .getHandlerFunc()(
+                    new HTTPRequest(
+                      req.method,
+                      req.url,
+                      url.parse(req.url as string, true).query,
+                      parsedBody
+                    )
+                  )
+                  .getResponse()
+              );
               res.end();
             }
           })
