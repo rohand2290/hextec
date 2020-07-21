@@ -27,9 +27,11 @@ class HextecCreator {
               res.end();
             } else {
               let body = "";
-              let parsedBody: object = {};
+              let isDone = false;
               req.on("data", (chunk) => (body += chunk.toString()));
-              req.on("end", () => (parsedBody = JSON.parse(body)));
+              req.on("end", () => {
+                isDone = false;
+              });
               res.write(
                 correctRoute
                   .getHandlerFunc()(
@@ -37,7 +39,7 @@ class HextecCreator {
                       req.method,
                       req.url,
                       url.parse(req.url as string, true).query,
-                      parsedBody
+                      body
                     )
                   )
                   .getResponse()
