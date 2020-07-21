@@ -2,13 +2,13 @@ class HTTPRequest {
   private urlMethod: string | undefined;
   private url: string | undefined;
   private params: object;
-  private body: string;
+  private body: object;
 
-  public getBody(): string {
+  public getBody(): object {
     return this.body;
   }
 
-  public setBody(body: string): void {
+  public setBody(body: object): void {
     this.body = body;
   }
 
@@ -40,7 +40,7 @@ class HTTPRequest {
     urlMethod: string | undefined,
     url: string | undefined,
     params: object,
-    body: string
+    body: object
   ) {
     this.urlMethod = urlMethod;
     this.url = url;

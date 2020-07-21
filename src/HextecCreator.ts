@@ -26,11 +26,12 @@ class HextecCreator {
               res.write("Route not found");
               res.end();
             } else {
-              let body = "";
+              let data: any = [];
+              let parsedData = {};
               let isDone = false;
-              req.on("data", (chunk) => (body += chunk.toString()));
+              req.on("data", (chunk) => data.push(chunk));
               req.on("end", () => {
-                isDone = false;
+                parsedData = JSON.parse(data);
               });
               res.write(
                 correctRoute
@@ -39,7 +40,7 @@ class HextecCreator {
                       req.method,
                       req.url,
                       url.parse(req.url as string, true).query,
-                      body
+                      parsedData
                     )
                   )
                   .getResponse()
