@@ -6,8 +6,8 @@ class HTMLResponse implements IResponse {
     this.response = response;
   }
 
-  getResponse = () => {
+  responseToString(): string {
     return this.response;
-  };
+  }
 }
 export default HTMLResponse;

@@ -1,5 +1,5 @@
 interface IResponse {
-  getResponse(): string;
+  responseToString(): string;
 }
 
 export default IResponse;
